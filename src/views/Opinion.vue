@@ -33,9 +33,9 @@
             <div class="collapse-content" v-show="opinionItem.isOpen">
                 <label for="">Opinión</label>
                 <textarea v-model="opinionItem.text" readonly></textarea>
+                <button class="btnDelete" @click="deleteOpinion(index)">Eliminar</button>
+                <button class="btnEdit">Editar</button>
             </div>
-            <button>Eliminar</button>
-            <button>Editar</button>
         </div>
 
 
@@ -83,9 +83,10 @@ export default {
         toggleCollapse(index) {
             this.opinions[index].isOpen = !this.opinions[index].isOpen;
         },
-        closeAlert() {
-            this.showAlert = false;
+        deleteOpinion(index){
+            this.opinions.splice(index, 1);
         }
+
     }
 };
 </script>
@@ -140,6 +141,17 @@ textarea {
 
 button {
     background-color: #0dcaf0;
+    color: black;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btnDelete {
+    background-color: #dc3545;
     color: white;
     border: none;
     padding: 10px 15px;
@@ -149,8 +161,28 @@ button {
     transition: background-color 0.3s;
 }
 
+.btnEdit {
+    background-color: #ffc107;
+    color: black;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-left: 1%;
+}
+
 button:hover {
     background-color: #3598ac;
+}
+
+.btnDelete:hover {
+    background-color: #7a1f1f;
+}
+
+.btnEdit:hover {
+    background-color: #b3bd27;
 }
 
 .alert {
