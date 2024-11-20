@@ -16,7 +16,7 @@
                 <textarea placeholder="Tu opinión debe ir aquí..." id="opinion" v-model="opinion"></textarea>
             </div>
             <br />
-            <button type="submit" @click.prevent="opinar">Agregar</button>
+            <button type="submit" @click.prevent="opinar">{{ editIndex !== null ? 'Actualizar' : 'Agregar' }}</button>
         </form>
         <br />
         <h1>A continuación podrás ver tu opinión.</h1>
@@ -28,13 +28,13 @@
 
         <div v-for="(opinionItem, index) in opinions" :key="index" class="collapse-container">
             <div class="collapse-header" @click="toggleCollapse(index)">
-                {{ opinionItem.name }}
+                Opinión creada por: <span>{{ opinionItem.name }}</span>
             </div>
             <div class="collapse-content" v-show="opinionItem.isOpen">
                 <label for="">Opinión</label>
                 <textarea v-model="opinionItem.text" readonly></textarea>
                 <button class="btnDelete" @click="deleteOpinion(index)">Eliminar</button>
-                <button class="btnEdit">Editar</button>
+                <button class="btnEdit" @click="editOpinion(index)">Editar</button>
             </div>
         </div>
 
@@ -57,7 +57,8 @@ export default {
             opinion: "",
             opinions: [],
             showCollapse: false,
-            isOpen: false
+            isOpen: false,
+            editIndex: null
         };
     },
     computed: {
@@ -71,7 +72,13 @@ export default {
     methods: {
         opinar() {
             if (this.nameOpinion && this.opinion) {
-                this.opinions.push({ name: this.nameOpinion, text: this.opinion, isOpen: false });
+                if (this.editIndex !== null) {
+                    this.opinions[this.editIndex].name = this.nameOpinion;
+                    this.opinions[this.editIndex].text = this.opinion;
+                    this.editIndex = null;
+                } else {
+                    this.opinions.push({ name: this.nameOpinion, text: this.opinion, isOpen: false });
+                }
                 this.nameOpinion = "";
                 this.opinion = "";
             } else {
@@ -81,10 +88,14 @@ export default {
         toggleCollapse(index) {
             this.opinions[index].isOpen = !this.opinions[index].isOpen;
         },
-        deleteOpinion(index){
+        deleteOpinion(index) {
             this.opinions.splice(index, 1);
+        },
+        editOpinion(index) {
+            this.nameOpinion = this.opinions[index].name;
+            this.opinion = this.opinions[index].text;
+            this.editIndex = index;
         }
-
     }
 };
 </script>
@@ -96,6 +107,10 @@ img {
     border-radius: 8px;
     padding: 10px;
     width: 300px;
+}
+
+span {
+    font-size: 20px;
 }
 
 form {

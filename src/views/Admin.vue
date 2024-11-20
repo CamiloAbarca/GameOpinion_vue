@@ -29,6 +29,7 @@
                 <span id="coinCount">${{ progreso }}</span>
               </div>
             </div>
+            <p v-if="progreso === 50">Llegaste al máximo de tu crédito.</p>
           </div>
         </div>
         <br><br><br><br>
@@ -107,7 +108,7 @@ export default {
     },
     updateProgressBar() {
       const progressElement = document.getElementById("progress");
-      const percentage = (this.progreso / 50) * 100;
+      const percentage = (this.progreso / 100) * 100;
       progressElement.style.width = percentage + '%';
     },
     setProgressColor(color) {
