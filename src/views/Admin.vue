@@ -11,21 +11,23 @@
       <div v-if="showInfo">
         <div class="resume">
           <h1>Resumen de tu cuenta</h1>
-          <h2>Le diste Me Gusta al juego: {{ name }}</h2>
+          <h3>Le diste Me Gusta al juego: <span style="font-size: 20px; text-shadow: 2px 2px 4px gray;">{{ name }}</span></h3>
           <br>
           <div class="coins">
             <h3>¿Deseas comprar coins para este juego?</h3>
             <br>
-            <button class="addCoin-button" @click="addCoin" v-if="progreso < 50"> <i class="fa-solid fa-coins"
-                style="color: #000000;"></i> Agregar
-              coins</button>
-            <br>
-            <!-- Aquí va un HR -->
+            <div class="spaceCoin">
+              <h3 style="color: red;" v-if="progreso === 50">No se pueden agregar mas Coin's</h3>
+              <button class="addCoin-button" @click="addCoin" v-if="progreso < 50"> <i class="fa-solid fa-coins"
+                  style="color: #000000;"></i> Agregar
+                coins</button>
+            </div>
+            <div class="line"></div>
             <h1>Cantidad de coins comprados</h1>
-            <br>
-            <p>aquí va un progress {{ progreso }}</p>
             <div id="progressBar">
-              <div id="progress"></div>
+              <div id="progress">
+                <span id="coinCount">${{ progreso }}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -63,15 +65,13 @@ export default {
       lastName: '',
       showInfo: false,
       reqData: true,
+      showEnd: false,
       progreso: 0,
     };
   },
   computed: {
     name() {
       return this.$route.params.name;
-    },
-    src() {
-      return this.$route.params.src;
     }
   },
   methods: {
@@ -90,24 +90,24 @@ export default {
       }
     },
     addCoin() {
-      this.progreso = this.progreso + 1
-      console.log(this.progreso)
+      if (this.progreso < 50) {
+        this.progreso += 1;
+        console.log(this.progreso);
 
-      // Actualizar la barra de progreso
-      this.updateProgressBar();
+        this.updateProgressBar();
 
-      // Cambiar color de la barra según el progreso
-      if (this.progreso <= 20) {
-        this.setProgressColor('green');
-      } else if (this.progreso > 20 && this.progreso <= 30) {
-        this.setProgressColor('#f7bb07');
-      } else if (this.progreso > 30 && this.progreso <= 50) {
-        this.setProgressColor('red');
+        if (this.progreso <= 20) {
+          this.setProgressColor('green');
+        } else if (this.progreso > 20 && this.progreso <= 30) {
+          this.setProgressColor('#f7bb07');
+        } else if (this.progreso > 30 && this.progreso <= 50) {
+          this.setProgressColor('red');
+        }
       }
     },
     updateProgressBar() {
       const progressElement = document.getElementById("progress");
-      const percentage = (this.progreso / 50) * 100; // Suponiendo que el máximo es 50
+      const percentage = (this.progreso / 50) * 100;
       progressElement.style.width = percentage + '%';
     },
     setProgressColor(color) {
@@ -158,6 +158,7 @@ body {
   cursor: pointer;
   transition: background-color 0.3s;
   margin-right: 3%;
+  width: 200px;
 }
 
 .addCoin-button:hover {
@@ -178,26 +179,37 @@ body {
 
 .container {
   display: flex;
-  justify-content: center;
+  justify-content: star;
+  margin-left: 150px;
+
 }
 
 .coins {
-  display: grid;
-  justify-content: left;
+  display: block;
   border: 1px solid grey;
   padding: 1%;
   width: 600px;
+  box-sizing: border-box;
+}
 
+.spaceCoin {
+  display: grid;
+  justify-content: center;
+}
+
+.line {
+  border: 1px solid grey;
+  margin-top: 5%;
+  width: 100%;
 }
 
 .box {
-  width: 30%;
-  height: 180px;
+  width: 400px;
+  height: 150px;
   display: grid;
   align-items: center;
   justify-content: left;
   text-align: left;
-  font-weight: bold;
 }
 
 .yellow {
@@ -221,13 +233,17 @@ body {
   background-color: #f3f3f3;
   border: 1px solid #ccc;
   border-radius: 5px;
-  height: 15px;
+  height: 20px;
+  margin-top: 10px;
 }
 
 #progress {
   height: 100%;
   width: 0%;
   transition: width 0.3s;
-  /* Animación suave */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
 }
 </style>

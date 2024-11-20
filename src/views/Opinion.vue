@@ -22,7 +22,7 @@
         <h1>A continuación podrás ver tu opinión.</h1>
         <br />
 
-        <div role="alert" class="alert" v-if="showAlert">
+        <div role="alert" class="alert" v-if="opinions.length === 0">
             No existen opiniones para mostrar.
         </div>
 
@@ -56,7 +56,6 @@ export default {
             nameOpinion: "",
             opinion: "",
             opinions: [],
-            showAlert: true,
             showCollapse: false,
             isOpen: false
         };
@@ -73,7 +72,6 @@ export default {
         opinar() {
             if (this.nameOpinion && this.opinion) {
                 this.opinions.push({ name: this.nameOpinion, text: this.opinion, isOpen: false });
-                this.showAlert = false;
                 this.nameOpinion = "";
                 this.opinion = "";
             } else {

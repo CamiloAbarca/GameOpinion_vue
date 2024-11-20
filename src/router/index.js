@@ -11,7 +11,7 @@ const routes = [
     component: HomeView
   },
   {
-    path: '/admin/:name/:src',
+    path: '/admin/:name',
     name: 'Admin',
     component: Admin
   },
