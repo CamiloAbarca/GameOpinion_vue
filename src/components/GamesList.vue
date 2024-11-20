@@ -6,7 +6,7 @@
     <div v-else class="grid-container">
       <div v-for="game in games" :key="game.id" class="game-item">
         <img :src="game.background_image" :alt="game.name" />
-        <h2>{{ game.name }}</h2>
+        <h3>{{ game.name }}</h3>
         <hr>
         <p>Rating: {{ game.rating }}</p>
         <hr>

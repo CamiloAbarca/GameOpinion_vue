@@ -16,14 +16,17 @@
           <div class="coins">
             <h3>¿Deseas comprar coins para este juego?</h3>
             <br>
-            <button class="addCoin-button" @click="addCoin" v-if="progreso < 50"> <i class="fa-solid fa-coins" style="color: #000000;"></i> Agregar
+            <button class="addCoin-button" @click="addCoin" v-if="progreso < 50"> <i class="fa-solid fa-coins"
+                style="color: #000000;"></i> Agregar
               coins</button>
-          </div>
-          <br>
-          <h1>Cantidad de coins comprados</h1>
-          <br>
-          <div class="coins">
+            <br>
+            <!-- Aquí va un HR -->
+            <h1>Cantidad de coins comprados</h1>
+            <br>
             <p>aquí va un progress {{ progreso }}</p>
+            <div id="progressBar">
+              <div id="progress"></div>
+            </div>
           </div>
         </div>
         <br><br><br><br>
@@ -86,21 +89,30 @@ export default {
         alert("Por favor, asegúrate de ingresar tanto el nombre como el apellido.");
       }
     },
-    addCoin(){
-      this.progreso = this.progreso +1
+    addCoin() {
+      this.progreso = this.progreso + 1
       console.log(this.progreso)
-      if(this.progreso <=20){
-        console.log('verde')
+
+      // Actualizar la barra de progreso
+      this.updateProgressBar();
+
+      // Cambiar color de la barra según el progreso
+      if (this.progreso <= 20) {
+        this.setProgressColor('green');
+      } else if (this.progreso > 20 && this.progreso <= 30) {
+        this.setProgressColor('#f7bb07');
+      } else if (this.progreso > 30 && this.progreso <= 50) {
+        this.setProgressColor('red');
       }
-      if(this.progreso > 20 && this.progreso <= 30){
-        console.log('amarillo')
-      }
-      if(this.progreso > 30 && this.progreso <= 50){
-        console.log('rojo')
-      }
-      if(this.progreso >= 50){
-        alert("Has alcanzado el máximo de coin's. El botón se deshabilitará.");
-      }
+    },
+    updateProgressBar() {
+      const progressElement = document.getElementById("progress");
+      const percentage = (this.progreso / 50) * 100; // Suponiendo que el máximo es 50
+      progressElement.style.width = percentage + '%';
+    },
+    setProgressColor(color) {
+      const progressElement = document.getElementById("progress");
+      progressElement.style.backgroundColor = color;
     }
   }
 }
@@ -171,7 +183,11 @@ body {
 
 .coins {
   display: grid;
-  justify-content: center;
+  justify-content: left;
+  border: 1px solid grey;
+  padding: 1%;
+  width: 600px;
+
 }
 
 .box {
@@ -198,5 +214,20 @@ body {
 .blue {
   background-color: #0dc4e8;
   color: black;
+}
+
+#progressBar {
+  width: 100%;
+  background-color: #f3f3f3;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  height: 15px;
+}
+
+#progress {
+  height: 100%;
+  width: 0%;
+  transition: width 0.3s;
+  /* Animación suave */
 }
 </style>
