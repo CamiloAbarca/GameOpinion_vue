@@ -11,7 +11,8 @@
       <div v-if="showInfo">
         <div class="resume">
           <h1>Resumen de tu cuenta</h1>
-          <h3>Le diste Me Gusta al juego: <span style="font-size: 20px; text-shadow: 2px 2px 4px gray;">{{ name }}</span></h3>
+          <h3>Le diste Me Gusta al juego: <span style="font-size: 20px; text-shadow: 2px 2px 4px gray;">{{ name
+              }}</span></h3>
           <br>
           <div class="coins">
             <h3>¿Deseas comprar coins para este juego?</h3>
